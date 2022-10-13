@@ -10,6 +10,10 @@ cityArray.push(cityObject)
 for (i = 0; i < cityArray.length; i++) {
     console.log(cityArray[i])
     generateInfoCard(cityArray[i])
+    //need lat and lon
+    var cityLat = cityArray[i].lat;
+    var cityLon = cityArray[i].lon;
+    weatherApi(cityObject, cityLat, cityLon);
 }
 
 function generateInfoCard(cityObject) {
@@ -52,16 +56,15 @@ function populateEvents(cityObject) {
     var cardEl = $("#" + cityObject.name + "-events-el")
     // cardEl.text(cityObject.seatgeekResponse.meta.total)
     cardEl.text("Entertainment")
-    var eventNumber = $("<h5>").text("Total: " + cityObject.seatgeekResponse.meta.total)
+    var eventNumber = $("<h5>").text("Total: " + cityObject.seatgeekResponse.meta.total + " in a 30 mile radius.")
     cardEl.append(eventNumber);
 
     var eventTypes = [{}];
     eventTypes.push(cityObject.seatgeekResponse.events[0].type)
     for (let i = 0; i < cityObject.seatgeekResponse.events.length; i++) {
-        console.log(i);
         var tempType = cityObject.seatgeekResponse.events[i].type;
         if (!(eventTypes.includes(tempType))) {
-            console.log("Type " + tempType);
+
             eventTypes.push(tempType);
             var eventTypesEl = $("<a>").text(cityObject.seatgeekResponse.events[i].type.toUpperCase());
             eventTypesEl.href = "#";
@@ -69,12 +72,49 @@ function populateEvents(cityObject) {
             cardEl.append(eventTypesEl);
         }
         else {
-
+            //do nothing
         }
     }
     console.log(eventTypes);
 }
 
+
+function weatherApi(cityObject, lat, lon) {
+
+    $.ajax({
+        type: 'GET',
+        url: 'https://fnw-us.foreca.com/api/v1/observation/latest/%22' + lon + ',' + lat + '%22?lang=en&tempunit=F',
+        headers: {
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9wZmEuZm9yZWNhLmNvbVwvYXV0aG9yaXplXC90b2tlbiIsImlhdCI6MTY2NTUyNjI0NiwiZXhwIjo5OTk5OTk5OTk5LCJuYmYiOjE2NjU1MjYyNDYsImp0aSI6IjI3Yzc0MGYzODg0ODEwZWMiLCJzdWIiOiJqb2huZnJvbTIwOSIsImZtdCI6IlhEY09oakM0MCtBTGpsWVR0amJPaUE9PSJ9.R6lwtfrLoCrBhdTpLpZaeKjDbjeQWfZmla6i759u7Wg",
+        }
+    })
+        .then(function (response) {
+            cityObject['foreca'] = response;
+            console.log(cityObject.foreca + "Foreca");
+            populateWeather(cityObject);
+        })
+}
+// lets call the weather api
+// Foreca api
+// this call gets the day
+
+
+
+function populateWeather(cityObject) {
+
+    var cardEl = $("#" + cityObject.name + "-weather-el");
+
+    cardEl.text("Weather");
+    var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations.feelsLikeTemp);
+    var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations.relHumidity);
+    var symbol = $("<img>").text(cityObject.foreca.observations.symbol);
+    var temp = $("<h5>").text("Temperature: " + cityObject.foreca.observations.temperature);
+    var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations.windSpeed);
+
+    cardEl.append(symbol, feels, temp, humidity, windSpeed);
+
+}
+// search api via type
 function loadEventSearch() {
     console.log("event Loaded");
 }
