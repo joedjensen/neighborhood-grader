@@ -1,7 +1,7 @@
 var cityObject = JSON.parse(localStorage.getItem("cityObject"))
 var resultsCardsEl = $("#results-cards")
 
-var cityArray = ["Syracuse", "Washington"]
+var cityArray = []
 if (localStorage.getItem('cityArray')) {
     cityArray = JSON.parse(localStorage.getItem('cityArray'))
 }
@@ -25,9 +25,9 @@ function generateInfoCard(cityObject) {
     var headerCardEl =  $("<div>", {"class": "card text-center"})
     var bodyEl = $("<div>", {"class": "cell medium-8 large-8"})
     var bodyGridEl =  $("<div>", {"class": "grid-x align-justify grid-margin-x grid-padding-x"})
-    bodyCardEl1 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-weather-el"})
-    bodyCardEl2 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-jobs-el"})
-    bodyCardEl3 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-events-el"})
+    var bodyCardEl1 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-weather-el"})
+    var bodyCardEl2 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-jobs-el"})
+    var bodyCardEl3 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-events-el"})
     bodyCardEl1.text("Loading")
     bodyCardEl2.text("Loading")
     bodyCardEl3.text("Loading")
@@ -47,6 +47,7 @@ $.ajax({
         cityObject['seatgeekResponse'] = response;
         console.log(cityObject.seatgeekResponse)
         populateEvents(cityObject)
+        populateJobs(cityObject);
     })
 
 function populateEvents(cityObject) {
@@ -136,9 +137,9 @@ function populateJobs(cityObject) {
             jobEx2.text(response.results[1].name);
             var jobEx3 = $('<li>');
             jobEx3.text(response.results[2].name);
-            bodyCardEl2.text('');
+            cardEl.text('');
             jobsList.prepend(jobNum);
             jobsList.append(jobEx1, jobEx2, jobEx3);
-            bodyCardEl2.append(jobsList);
+            cardEl.append(jobsList);
         })
 }
