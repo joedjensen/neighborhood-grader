@@ -15,11 +15,20 @@
 </head>
 
 <body id="results-body">
+    <div class="reveal" id="exampleModal1" data-reveal>
+        <label for="findtext">Street</label>
+        <input id="findtext" type="text" />
+        <label for="findlocate">City</label>
+        <input id="findlocate" type="text" />
+        <button class="button searchBtn"><i class="fa fa-search"></i></button>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="grid-container">
-        <div class="grid-y align-center grid-frame grid-margin-x"  id = "results-cards">
-            <button type="button" class="button hollow rounded" data-quantity="plus" data-field="quantity">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </button>
+        <div class="grid-y align-center grid-frame grid-margin-x" id="results-cards">
+            <button class="button round hollow" data-open="exampleModal1"><i class="fa fa-plus"
+                    aria-hidden="true"></i></button>
         </div>
     </div>
 
