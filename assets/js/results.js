@@ -77,16 +77,17 @@ function populateEvents(cityObject) {
 }
 
 
-function weatherApi(cityObject, lat, lon) {
+function weatherApi(cityObject) {
 
     $.ajax({
         type: 'GET',
-        url: 'https://fnw-us.foreca.com/api/v1/observation/latest/%22' + lon + ',' + lat + '%22?lang=en&tempunit=F',
+        url: 'https://fnw-us.foreca.com/api/v1/observation/latest/"'+ cityObject.lon + ',' + cityObject.lat + '"?lang=en&tempunit=F',
         headers: {
             "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9wZmEuZm9yZWNhLmNvbVwvYXV0aG9yaXplXC90b2tlbiIsImlhdCI6MTY2NTUyNjI0NiwiZXhwIjo5OTk5OTk5OTk5LCJuYmYiOjE2NjU1MjYyNDYsImp0aSI6IjI3Yzc0MGYzODg0ODEwZWMiLCJzdWIiOiJqb2huZnJvbTIwOSIsImZtdCI6IlhEY09oakM0MCtBTGpsWVR0amJPaUE9PSJ9.R6lwtfrLoCrBhdTpLpZaeKjDbjeQWfZmla6i759u7Wg",
         }
     })
         .then(function (response) {
+            console.log(response)
             cityObject['foreca'] = response;
             console.log(cityObject.foreca + "Foreca");
             populateWeather(cityObject);
@@ -103,11 +104,11 @@ function populateWeather(cityObject) {
     var cardEl = $("#" + cityObject.name + "-weather-el");
 
     cardEl.text("Weather");
-    var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations.feelsLikeTemp);
-    var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations.relHumidity);
-    var symbol = $("<img>").text(cityObject.foreca.observations.symbol);
-    var temp = $("<h5>").text("Temperature: " + cityObject.foreca.observations.temperature);
-    var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations.windSpeed);
+    var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations[0].feelsLikeTemp);
+    var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations[0].relHumidity);
+    var symbol = $("<img>").text(cityObject.foreca.observations[0].symbol);
+    var temp = $("<h5>").text("Temperature: " + cityObject.foreca.observations[0].temperature);
+    var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations[0].windSpeed);
 
     cardEl.append(symbol, feels, temp, humidity, windSpeed);
 
