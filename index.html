@@ -1,12 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Neighborhood Grader</title>
 </head>
+
 <body>
-    
+
+    <header class="hero-search-filter">
+        <div class="hero-search-filter-content">
+            <img class="hero-search-filter-logo" src="" alt="" />
+            <form class="hero-search-filter-form" action="">
+                <label for="findtext">Street</label>
+                <input id="findtext" class="hero-search-filter-form-find" type="text" />
+                <div class="divider">&nbsp;</div>
+                <label for="findlocate">City</label>
+                <input id="findlocate" class="hero-search-filter-form-near" type="text" />
+                <button class="button searchBtn"><i class="fa fa-search"></i></button>
+            </form>
+            <ul class="hero-search-filter-menu menu align-center">
+                <li><a href="#"> Jobs</a></li>
+                <li><a href="#"> Entertainment</a></li>
+                <li><a href="#"> Walkability</a></li>
+                <li><a href="#"> Sentiment</a></li>
+            </ul>
+        </div>
+    </header>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/what-input@5.2.12/dist/what-input.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).foundation();
+    </script>
+
+
+    <!-- Compressed JavaScript -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js"
+        crossorigin="anonymous"></script> -->
+    <script src="./assets/js/script.js"></script>
 </body>
+
 </html>

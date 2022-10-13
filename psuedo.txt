@@ -1,0 +1,29 @@
+landing page has a search function for a location
+	on form submit call api's and clear page
+	
+	beneath that there are examples of the different results (Do this once we have examples of screenshots)
+		weather, foreca wants their logo listed 
+		walkability
+		entertainment
+		jobs
+
+get two strings, street 555 Walnut street and city Name Barcelona
+
+	create a go back button that reloads the page
+	
+	sync location 
+	
+	clear the screen 
+	
+		create module to house the summary score and the different api's 
+			have a score on the left side based off the api results
+				module tabs for weather(air quality), entertainment, jobs, walkability
+					onclick of those tabs will result in a modal pop up that pertain to those api's
+						weather: Air Quality Index(AQI), pollutant,(symbol, temperature, feelsLikeTemp, relHumidity, windSpeed)
+						Ex. https://api.seatgeek.com/2/venues?city=rockford
+						Entertainment: ?show a handful of cards about events: shows performer, venue, date, price?
+						Walkability:
+						
+						create a score based off these results. 
+					
+					save the location to be able to quick search again 
