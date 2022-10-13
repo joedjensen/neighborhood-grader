@@ -116,12 +116,29 @@
 }
 
 #results-body {
-    background-color: darkslateblue;
+    background-color: #251C1F;
+    overflow-y:overlay
 }
 
 .card {
-    /* box-shadow: 2px 5px pink; */
+    box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 20%);
     border-radius: 5px;
-    background-color: darkslateblue;
-    border-color: black;
+    background-color: #251C1F;
+    /* border-color: #9F2C3F; */
+    border: none;
+    color :black;
+    padding: 5px;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(90, 90, 90);
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }
