@@ -114,3 +114,14 @@
     border: 0;
     box-shadow: none;
 }
+
+#results-body {
+    background-color: darkslateblue;
+}
+
+.card {
+    /* box-shadow: 2px 5px pink; */
+    border-radius: 5px;
+    background-color: darkslateblue;
+    border-color: black;
+}

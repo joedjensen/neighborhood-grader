@@ -45,17 +45,15 @@ function fetchResults(event) {
 
                 console.log(lon + " this is lon");
                 console.log(lat + " this is lat");
-
+                var cityObject = {
+                    "name": cityName,
+                    "lat":lat,
+                    "lon":lon
+                }
+                localStorage.setItem("cityObject", JSON.stringify(cityObject));
                 // Seatgeek api
                 // fetch('https://api.seatgeek.com/2/events?venue.state=NY&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4')
-                fetch('https://api.seatgeek.com/2/events?lat=' + lat + '&lon=' + lon + '&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4')
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (data) {
-                        console.log(data);
-                        console.log("Events");
-                    })
+                document.location = "./results.html"
 
                 // // Foreca api
                 //this call gets the day 
@@ -75,7 +73,6 @@ function fetchResults(event) {
 
                 //     })
             })
-
 
 
 
