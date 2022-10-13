@@ -1,7 +1,7 @@
 .hero-search-filter {
-    /* background: url("l") center center no-repeat; */
+    background: url("../images/MO-Cityscape.jpg") center center no-repeat;
     background-color: #8a8a8a;
-    height: 300px;
+    height: 500px;
     background-size: cover;
     display: -webkit-flex;
     display: -ms-flexbox;
