@@ -21,9 +21,9 @@ function generateInfoCard(cityObject) {
     var headerCardEl =  $("<div>", {"class": "card text-center"})
     var bodyEl = $("<div>", {"class": "cell medium-8 large-8"})
     var bodyGridEl =  $("<div>", {"class": "grid-x align-justify grid-margin-x grid-padding-x"})
-    var bodyCardEl1 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-weather-el"})
-    var bodyCardEl2 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-events-el"})
-    var bodyCardEl3 = $("<div>", {"class": "card cell medium-3 large-6 text-center"})
+    bodyCardEl1 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-weather-el"})
+    bodyCardEl2 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-jobs-el"})
+    bodyCardEl3 = $("<div>", {"class": "card cell medium-3 large-6 text-center", "id" : cityObject.name + "-events-el"})
     var bodyCardEl4 = $("<div>", {"class": "card cell medium-3 large-6 text-center"})
     bodyCardEl1.text("Loading")
     bodyCardEl2.text("Loading")
@@ -45,9 +45,39 @@ $.ajax({
     cityObject['seatgeekResponse'] = response;
     console.log(cityArray.seatgeekResponse)
     populateEvents(cityObject)
+    populateJobs(cityObject);
 })
 
 function populateEvents(cityObject) {
     var cardEl = $("#" + cityObject.name + "-events-el")
     cardEl.text(cityObject.seatgeekResponse.meta.total)
+}
+
+
+
+function populateJobs(cityObject) {
+    var cardEl = $("#" + cityObject.name + "-jobs-el");
+    var jobLocationName = cityObject.name;
+    var jobLocationState = cityObject.seatgeekResponse.meta.geolocation.state;
+    var requestURL = 'https://www.themuse.com/api/public/jobs?page=20&location='+jobLocationName+'%2C%20'+jobLocationState;
+        $.ajax({
+            url: requestURL,
+            method: 'GET'
+        }).then(function(response) {
+            console.log(response);
+            console.log(response.results[0].locations[0].name)
+            var jobsList = $('<ul>').css("list-style","none").css("font-size", '15px');
+            var jobNum = $('<li>');
+            jobNum.text(response.total + ' total jobs in area, including:');
+            var jobEx1 = $('<li>');
+            jobEx1.text(response.results[0].name);
+            var jobEx2 = $('<li>');
+            jobEx2.text(response.results[1].name);
+            var jobEx3 = $('<li>');
+            jobEx3.text(response.results[2].name);
+            bodyCardEl2.text('');
+            jobsList.prepend(jobNum);
+            jobsList.append(jobEx1, jobEx2, jobEx3);
+            bodyCardEl2.append(jobsList);
+        })
 }
