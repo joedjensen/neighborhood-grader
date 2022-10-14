@@ -10,8 +10,11 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Neighborhood Grader</title>
+    <title>City Grader</title>
 </head>
 
 <body>
@@ -20,18 +23,14 @@
         <div class="hero-search-filter-content">
             <img class="hero-search-filter-logo" src="" alt="" />
             <form class="hero-search-filter-form" action="">
-                <label for="findtext">Street</label>
-                <input id="findtext" class="hero-search-filter-form-find" type="text" />
-                <div class="divider">&nbsp;</div>
                 <label for="findlocate">City</label>
                 <input id="findlocate" class="hero-search-filter-form-near" type="text" />
-                <button class="button searchBtn"><i class="fa fa-search"></i></button>
+                <button class="button searchBtn" style = "display: inline-flex;">Search<i class="fa fa-search" style="padding-left:8px"></i></button>
             </form>
             <ul class="hero-search-filter-menu menu align-center">
                 <li><a href="#"> Jobs</a></li>
                 <li><a href="#"> Entertainment</a></li>
-                <li><a href="#"> Walkability</a></li>
-                <li><a href="#"> Sentiment</a></li>
+                <li><a href="#"> Weather</a></li>
             </ul>
         </div>
     </header>

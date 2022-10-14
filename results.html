@@ -9,18 +9,19 @@
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css"
         crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Document</title>
+    <title>Results</title>
 </head>
 
 <body id="results-body">
-    <div class="reveal" id="exampleModal1" data-reveal>
-        <label for="findtext">Street</label>
-        <input id="findtext" type="text" />
+    <div class="reveal .grid-x" id="exampleModal1"  data-reveal>
         <label for="findlocate">City</label>
-        <input id="findlocate" type="text" />
-        <button class="button searchBtn"><i class="fa fa-search"></i></button>
+        <input class = "cell" id="findlocate" type="text" />
+        <button class="button searchBtn cell" style = "text-align: center">Search<i class="fa fa-search" style = "padding-left: 8px;"></i></button>
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>

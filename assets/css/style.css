@@ -1,3 +1,6 @@
+* {
+    font-family: "Lato"
+}
 .hero-search-filter {
     background: url("../images/MO-Cityscape.jpg") center center no-repeat;
     background-color: #8a8a8a;
@@ -116,17 +119,19 @@
 }
 
 #results-body {
-    background-color: #251C1F;
+    background-color: #0a0a31;
     overflow-y:overlay
 }
+
+
 
 .card {
     box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 20%);
     border-radius: 5px;
-    background-color: #251C1F;
+    background-color: #0a0a31;
     /* border-color: #9F2C3F; */
     border: none;
-    color :black;
+    color :white;
     padding: 5px;
 }
 
@@ -151,4 +156,8 @@
       position: absolute;
       top: -3px;
       right: -3px;
+  }
+  .result-card .card:hover {
+    box-shadow: -2px -2px 3px rgba(255,255,255,0.05),
+    2px 2px 3px rgba(70,70,70,0.05);
   }
