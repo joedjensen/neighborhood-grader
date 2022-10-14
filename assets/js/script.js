@@ -47,6 +47,7 @@ function fetchResults(event) {
                 console.log(lat + " this is lat");
                 var cityObject = {
                     "name": cityName,
+                    "nameJS": cityName.replace(/\s/g, '-'),
                     "lat":lat,
                     "lon":lon
                 }

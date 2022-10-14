@@ -142,3 +142,13 @@
   ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.2);
   }
+
+  .result-card {
+    position: relative;
+  }
+  
+  .close-btn {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+  }
