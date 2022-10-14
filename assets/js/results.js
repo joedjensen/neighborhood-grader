@@ -34,9 +34,9 @@ function generateInfoCard(cityObject) {
     var cardGridX = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" })
     var headerGridY = $("<div>", { "class": "grid-y align-center", "style": "height:100%" })
     var headerEl = $("<div>", { "class": "cell medium-4 large-4" })
-    var headerCardEl = $("<div>", { "class": "card text-center", "id": cityObject.nameJS + "-header" })
+    var headerCardEl = $("<div>", { "class": "card text-center", "id": cityObject.nameJS + "-score" })
     var bodyEl = $("<div>", { "class": "cell medium-8 large-8" })
-    var bodyGridEl = $("<div>", { "class": "grid-x align-justify grid-margin-x grid-padding-x" })
+    var bodyGridEl = $("<div>", { "class": "grid-x  grid-margin-x grid-padding-x align-justify"  })
     var bodyCardEl1 = $("<div>", { "class": "card cell medium-3 large-6 text-center", "id": cityObject.nameJS + "-weather-el" })
     var bodyCardEl2 = $("<div>", { "class": "card cell medium-3 large-6 text-center", "id": cityObject.nameJS + "-jobs-el" })
     var bodyCardEl3 = $("<div>", { "class": "card cell medium-3 large-6 text-center", "id": cityObject.nameJS + "-events-el" })
@@ -68,28 +68,31 @@ function eventsAndJobsApi(cityObject) {
 
 function populateEvents(cityObject) {
     var cardEl = $("#" + cityObject.nameJS + "-events-el")
+    cardEl.empty()
     // cardEl.text(cityObject.seatgeekResponse.meta.total)
-    cardEl.text("Entertainment")
-    var eventNumber = $("<h5>").text("Total: " + cityObject.seatgeekResponse.meta.total + " in a 30 mile radius.")
-    cardEl.append(eventNumber);
+    var eventCardHeader = $("<h4>").text("Events")
+    cardEl.append(eventCardHeader)
+    var eventNumber = $("<h2>").text(cityObject.seatgeekResponse.meta.total.toLocaleString())
+    var cardFooter = $("<h5>").text("in area")
+    cardEl.append(eventNumber, cardFooter);
 
-    var eventTypes = [{}];
-    eventTypes.push(cityObject.seatgeekResponse.events[0].type)
-    for (let i = 0; i < cityObject.seatgeekResponse.events.length; i++) {
-        var tempType = cityObject.seatgeekResponse.events[i].type;
-        if (!(eventTypes.includes(tempType))) {
+    // var eventTypes = [{}];
+    // eventTypes.push(cityObject.seatgeekResponse.events[0].type)
+    // for (let i = 0; i < cityObject.seatgeekResponse.events.length; i++) {
+    //     var tempType = cityObject.seatgeekResponse.events[i].type;
+    //     if (!(eventTypes.includes(tempType))) {
 
-            eventTypes.push(tempType);
-            var eventTypesEl = $("<a>").text(cityObject.seatgeekResponse.events[i].type.toUpperCase());
-            eventTypesEl.href = "#";
-            eventTypesEl.on("click", loadEventSearch);
-            cardEl.append(eventTypesEl);
-        }
-        else {
-            //do nothing
-        }
-    }
-    console.log(eventTypes);
+    //         eventTypes.push(tempType);
+    //         var eventTypesEl = $("<a>").text(cityObject.seatgeekResponse.events[i].type.toUpperCase());
+    //         eventTypesEl.href = "#";
+    //         eventTypesEl.on("click", loadEventSearch);
+    //         cardEl.append(eventTypesEl);
+    //     }
+    //     else {
+    //         //do nothing
+    //     }
+    // }
+    // console.log(eventTypes);
 }
 
 function weatherApi(cityObject) {
@@ -117,15 +120,15 @@ function weatherApi(cityObject) {
 function populateWeather(cityObject) {
 
     var cardEl = $("#" + cityObject.nameJS + "-weather-el");
+    cardEl.empty()
+    var weatherCardHeader = $("<h4>").text("Current Temp")
+    // var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations[0].feelsLikeTemp);
+    // var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations[0].relHumidity);
+    // var symbol = $("<img>").text(cityObject.foreca.observations[0].symbol);
+    var temp = $("<h2>").html(cityObject.foreca.observations[0].temperature  + "&#8457");
+    // var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations[0].windSpeed);
 
-    cardEl.text("Weather");
-    var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations[0].feelsLikeTemp);
-    var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations[0].relHumidity);
-    var symbol = $("<img>").text(cityObject.foreca.observations[0].symbol);
-    var temp = $("<h5>").text("Temperature: " + cityObject.foreca.observations[0].temperature);
-    var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations[0].windSpeed);
-
-    cardEl.append(symbol, feels, temp, humidity, windSpeed);
+    cardEl.append(weatherCardHeader ,temp);
 
 }
 // search api via type
@@ -146,33 +149,40 @@ function jobsApi(cityObject) {
         console.log(response)
         cityObject['jobs'] = response;
         populateJobs(cityObject);
+        populateScore(cityObject)
         localStorage.setItem('cityHistoryObject', JSON.stringify(cityHistoryObject))
     })
 }
 
 
 function populateJobs(cityObject) {
-    console.log(cityObject)
     var cardEl = $("#" + cityObject.nameJS + "-jobs-el");
-    var jobsList = $('<ul>').css("list-style", "none").css("font-size", '15px');
-    var jobNum = $('<li>');
-    jobNum.text(cityObject.jobs.total + ' total jobs in area, including:');
-    var jobEx1 = $('<li>');
-    jobEx1.text(cityObject.jobs.results[0].name);
-    var jobEx2 = $('<li>');
-    jobEx2.text(cityObject.jobs.results[1].name);
-    var jobEx3 = $('<li>');
-    jobEx3.text(cityObject.jobs.results[2].name);
-    cardEl.text('');
-    jobsList.prepend(jobNum);
-    jobsList.append(jobEx1, jobEx2, jobEx3);
-    cardEl.append(jobsList);
+    cardEl.empty()
+    var jobsCardHeader = $("<h4>").text("Jobs")
+    // var jobsList = $('<ul>').css("list-style", "none").css("font-size", '15px');
+    // var jobNum = $('<li>');
+    // jobNum.text(cityObject.jobs.total + ' total jobs in area, including:');
+    // var jobEx1 = $('<li>');
+    // jobEx1.text(cityObject.jobs.results[0].name);
+    // var jobEx2 = $('<li>');
+    // jobEx2.text(cityObject.jobs.results[1].name);
+    // var jobEx3 = $('<li>');
+    // jobEx3.text(cityObject.jobs.results[2].name);
+    // cardEl.text('');
+    // jobsList.prepend(jobNum);
+    // jobsList.append(jobEx1, jobEx2, jobEx3);
+
+    var jobNum = $("<h2>").html(cityObject.jobs.total.toLocaleString());
+    var footer =  $("<h5>").text("in area")
+    cardEl.append(jobsCardHeader, jobNum, footer);
     
 }
 
 function populateHeader(cityObject) {
-    var headerEl = $("#" + cityObject.nameJS + "-header")
-    headerEl.text(cityObject.name)
+    var scoreCardEl = $("#" + cityObject.nameJS + "-score")
+    scoreCardEl.empty()
+    var scoreCardHeader = $("<h4>").text(cityObject.name)
+    scoreCardEl.append(scoreCardHeader)
 }
 
 function fetchResults(event) {
@@ -270,5 +280,31 @@ function renderFromHistory() {
         populateWeather(cityHistoryObject[cities[i]]);
         populateEvents(cityHistoryObject[cities[i]])
         populateJobs(cityHistoryObject[cities[i]])
+        populateScore(cityHistoryObject[cities[i]])
     }
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+  }
+
+function populateScore(cityObject) { 
+    var scoreCardEl = $("#" + cityObject.nameJS + "-score")
+    var scoreEl = $("<h2>")
+    if (cityObject.score) {
+        scoreEl.text(cityObject.score)
+    } else {
+        var score = getRandomInt(80, 100)
+        scoreEl.text(score)
+        console.log("setting score")
+        cityObject['score'] = score
+        localStorage.setItem("cityHistoryObject", JSON.stringify(cityHistoryObject))
+        console.log(cityObject)
+        console.log(cityHistoryObject)
+    }
+    var scoreFooter = $("<h5>").text("Overall Score")
+    scoreEl.css("fontSize", 130)
+    scoreCardEl.append(scoreEl, scoreFooter)
 }
