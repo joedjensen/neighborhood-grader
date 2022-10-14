@@ -7,11 +7,10 @@ var lon = 0;
 function fetchResults(event) {
     event.preventDefault();
     //save street and city values
-    var streetName = $("#findtext").val();
     var cityName = $("#findlocate").val();
 
-    if (!streetName || !cityName) {
-        console.log("Need both street and city.");
+    if (!cityName) {
+        console.log("Need city.");
         return;
     }
     else {

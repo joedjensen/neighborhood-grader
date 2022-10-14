@@ -13,7 +13,7 @@ renderFromHistory()
 
 if (localStorage.getItem('cityObject')) {
     var cityObject = JSON.parse(localStorage.getItem("cityObject"))
-    if (!cityHistoryObject[cityObject.name]) {
+    if (!cityHistoryObject[cityObject.nameJS]) {
         generateInfoCard(cityObject)
         weatherApi(cityObject);
         eventsAndJobsApi(cityObject);
@@ -179,11 +179,10 @@ function fetchResults(event) {
     console.log("here we go")
     event.preventDefault();
     //save street and city values
-    var streetName = $("#findtext").val();
     var cityName = $("#findlocate").val();
 
-    if (!streetName || !cityName) {
-        console.log("Need both street and city.");
+    if (!cityName) {
+        console.log("Need city.");
         return;
     }
     else {
@@ -226,7 +225,7 @@ function fetchResults(event) {
                 localStorage.setItem("cityObject", JSON.stringify(cityObject));
                 // Seatgeek api
                 // fetch('https://api.seatgeek.com/2/events?venue.state=NY&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4')
-                document.location = "./results.html"
+                document.location.replace( "./results.html")
 
                 // // Foreca api
                 //this call gets the day 
