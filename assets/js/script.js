@@ -1,4 +1,8 @@
 var searchBtnEl = $(".searchBtn");
+// Get the modal
+var modal = document.getElementById("myModal");
+// Get the button that opens the modal
+var closeCitybtn = document.getElementsByClassName("close")[0];
 
 //Need to sync up the locations 
 var lat = 0;
@@ -10,16 +14,11 @@ function fetchResults(event) {
     var cityName = $("#findlocate").val();
 
     if (!cityName) {
-        console.log("Need city.");
+        $("#cityStatus").text("Enter a city Name, such as Fresno, Chicago, or New York");
+        modal.style.display = "block";
         return;
     }
     else {
-        // console.log("Thanks for the location.");
-        //move to search page or clear the page
-        //then call api's
-
-
-
 
         // Foreca api grab lat/lon by city name
         $.ajax({
@@ -34,7 +33,13 @@ function fetchResults(event) {
             })
             .then(function (data) {
                 console.log(data);
-                console.log("Lets get this lat/lon");
+
+                console.log(data.status);
+                if (data.location === null || data.location === undefined || data.location === 0) {
+                    modal.style.display = "block";
+                    $("#cityStatus").text("City not Found: " + cityName);
+                    return data;
+                }
 
                 lon = data.locations[0].lon;
                 lat = data.locations[0].lat;
@@ -47,51 +52,25 @@ function fetchResults(event) {
                 var cityObject = {
                     "name": cityName,
                     "nameJS": cityName.replace(/\s/g, '-'),
-                    "lat":lat,
-                    "lon":lon
+                    "lat": lat,
+                    "lon": lon
                 }
                 localStorage.setItem("cityObject", JSON.stringify(cityObject));
-                // Seatgeek api
-                // fetch('https://api.seatgeek.com/2/events?venue.state=NY&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4')
+
                 document.location = "./results.html"
-
-                // // Foreca api
-                //this call gets the day 
-                // $.ajax({
-                //     type: 'GET',
-                //     async: 'false',
-                //     url: 'https://fnw-us.foreca.com/api/v1/observation/latest/%22' + lon + ',' + lat + '%22?lang=en&tempunit=F',
-                //     headers: {
-                //         "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9wZmEuZm9yZWNhLmNvbVwvYXV0aG9yaXplXC90b2tlbiIsImlhdCI6MTY2NTUyNjI0NiwiZXhwIjo5OTk5OTk5OTk5LCJuYmYiOjE2NjU1MjYyNDYsImp0aSI6IjI3Yzc0MGYzODg0ODEwZWMiLCJzdWIiOiJqb2huZnJvbTIwOSIsImZtdCI6IlhEY09oakM0MCtBTGpsWVR0amJPaUE9PSJ9.R6lwtfrLoCrBhdTpLpZaeKjDbjeQWfZmla6i759u7Wg",
-                //     }
-                // })
-                //     .then(function (response) {
-                //         return response;
-                //     })
-                //     .then(function (data) {
-                //         console.log(data);
-
-                //     })
             })
-
-
-
     }
-
 }
 
-// Foreca api
-// $.ajax({
-//     url: 'https://fnw-us.foreca.com/api/v1/location/search/Barcelona?lang=es',
-//     headers: {
-//         "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9wZmEuZm9yZWNhLmNvbVwvYXV0aG9yaXplXC90b2tlbiIsImlhdCI6MTY2NTUyNjI0NiwiZXhwIjo5OTk5OTk5OTk5LCJuYmYiOjE2NjU1MjYyNDYsImp0aSI6IjI3Yzc0MGYzODg0ODEwZWMiLCJzdWIiOiJqb2huZnJvbTIwOSIsImZtdCI6IlhEY09oakM0MCtBTGpsWVR0amJPaUE9PSJ9.R6lwtfrLoCrBhdTpLpZaeKjDbjeQWfZmla6i759u7Wg",
-//     }
-// })
-//     .then(function (response) {
-//         return response;
-//     })
-//     .then(function (data) {
-//         console.log(data);
-//     })
-
 searchBtnEl.on("click", fetchResults);
+
+// When the user clicks on <span> (x), close the modal
+closeCitybtn.onclick = function () {
+    modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
