@@ -10,9 +10,9 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>City Grader</title>
 </head>
@@ -25,7 +25,8 @@
             <form class="hero-search-filter-form" action="">
                 <label for="findlocate">City</label>
                 <input id="findlocate" class="hero-search-filter-form-near" type="text" />
-                <button class="button searchBtn" style = "display: inline-flex;">Search<i class="fa fa-search" style="padding-left:8px"></i></button>
+                <button class="button searchBtn" style="display: inline-flex;">Search<i class="fa fa-search"
+                        style="padding-left:8px"></i></button>
             </form>
             <ul class="hero-search-filter-menu menu align-center">
                 <li><a href="#"> Jobs</a></li>
@@ -35,7 +36,15 @@
         </div>
     </header>
 
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="cityStatus">City not Found</p>
+        </div>
 
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/what-input@5.2.12/dist/what-input.min.js"></script>
