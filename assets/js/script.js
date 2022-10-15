@@ -34,7 +34,8 @@ function fetchResults(event) {
             .then(function (data) {
                 console.log(data);
 
-                if (data.location === 0) {
+                console.log(data.status);
+                if (data.location === null || data.location === undefined || data.location === 0) {
                     modal.style.display = "block";
                     $("#cityStatus").text("City not Found: " + cityName);
                     return data;
