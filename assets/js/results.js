@@ -19,7 +19,7 @@ if (localStorage.getItem('cityObject')) {
         eventsAndJobsApi(cityObject);
         populateHeader(cityObject)
     }
-    
+
     cityHistoryObject[cityObject.nameJS] = cityObject
 }
 
@@ -28,7 +28,7 @@ if (localStorage.getItem('cityObject')) {
 
 function generateInfoCard(cityObject) {
     console.log(cityObject)
-    var largeCardEl = $("<div>", { "class": "cell card align-center auto result-card", "data-city-name": cityObject.nameJS})
+    var largeCardEl = $("<div>", { "class": "cell card align-center auto result-card", "data-city-name": cityObject.nameJS })
     var closeButtonEl = $("<button>", { "class": "close-button close-btn", "aria-label": "Close alert", "type": "button" })
     closeButtonEl.html("<span>&times;</span>")
     var cardGridX = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" })
@@ -36,7 +36,7 @@ function generateInfoCard(cityObject) {
     var headerEl = $("<div>", { "class": "cell medium-4 large-4" })
     var headerCardEl = $("<div>", { "class": "card text-center", "id": cityObject.nameJS + "-score" })
     var bodyEl = $("<div>", { "class": "cell medium-8 large-8" })
-    var bodyGridEl = $("<div>", { "class": "grid-x  grid-margin-x grid-padding-x align-justify"  })
+    var bodyGridEl = $("<div>", { "class": "grid-x  grid-margin-x grid-padding-x align-justify" })
     var bodyCardEl1 = $("<div>", { "class": "card cell medium-6 large-4 text-center", "id": cityObject.nameJS + "-weather-el" })
     var bodyCardEl2 = $("<div>", { "class": "card cell medium-6 large-4 text-center", "id": cityObject.nameJS + "-jobs-el" })
     var bodyCardEl3 = $("<div>", { "class": "card cell medium-6 large-4 text-center", "id": cityObject.nameJS + "-events-el" })
@@ -125,10 +125,10 @@ function populateWeather(cityObject) {
     // var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations[0].feelsLikeTemp);
     // var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations[0].relHumidity);
     // var symbol = $("<img>").text(cityObject.foreca.observations[0].symbol);
-    var temp = $("<h2>").html(cityObject.foreca.observations[0].temperature  + "&#8457");
+    var temp = $("<h2>").html(cityObject.foreca.observations[0].temperature + "&#8457");
     // var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations[0].windSpeed);
 
-    cardEl.append(weatherCardHeader ,temp);
+    cardEl.append(weatherCardHeader, temp);
 
 }
 // search api via type
@@ -173,9 +173,9 @@ function populateJobs(cityObject) {
     // jobsList.append(jobEx1, jobEx2, jobEx3);
 
     var jobNum = $("<h2>").html(cityObject.jobs.total.toLocaleString());
-    var footer =  $("<h5>").text("in area")
+    var footer = $("<h5>").text("in area")
     cardEl.append(jobsCardHeader, jobNum, footer);
-    
+
 }
 
 function populateHeader(cityObject) {
@@ -192,15 +192,10 @@ function fetchResults(event) {
     var cityName = $("#findlocate").val();
 
     if (!cityName) {
-        console.log("Need city.");
+        $("label").text("").append(" Enter a city Name, such as Fresno, Chicago, or New York").css({ "color": "red" });
         return;
     }
     else {
-        // console.log("Thanks for the location.");
-        //move to search page or clear the page
-        //then call api's
-
-
 
 
         // Foreca api grab lat/lon by city name
@@ -216,7 +211,12 @@ function fetchResults(event) {
             })
             .then(function (data) {
                 console.log(data);
-                console.log("Lets get this lat/lon");
+
+                if (!data.locations.length) {
+                    $("label").text("").append("City not Found: " + cityName).css({ "color": "red" });
+                    $("#findlocate").val("");
+                    return data;
+                }
 
                 lon = data.locations[0].lon;
                 lat = data.locations[0].lat;
@@ -224,8 +224,6 @@ function fetchResults(event) {
                 lon = parseFloat(lon).toFixed(2);
                 lat = parseFloat(lat).toFixed(2);
 
-                console.log(lon + " this is lon");
-                console.log(lat + " this is lat");
                 var cityObject = {
                     "name": cityName,
                     "nameJS": cityName.replace(/\s/g, '-'),
@@ -235,7 +233,7 @@ function fetchResults(event) {
                 localStorage.setItem("cityObject", JSON.stringify(cityObject));
                 // Seatgeek api
                 // fetch('https://api.seatgeek.com/2/events?venue.state=NY&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4')
-                document.location.replace( "./results.html")
+                document.location.replace("./results.html")
 
                 // // Foreca api
                 //this call gets the day 
@@ -288,9 +286,9 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-  }
+}
 
-function populateScore(cityObject) { 
+function populateScore(cityObject) {
     var scoreCardEl = $("#" + cityObject.nameJS + "-score")
     var scoreEl = $("<h2>")
     if (cityObject.score) {
