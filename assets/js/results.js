@@ -205,11 +205,15 @@ function getRandomInt(min, max) {
 function populateScore(cityObject) {
     var scoreCardEl = $("#" + cityObject.nameJS + "-score")
     var scoreEl = $("<h2>")
+    const f = chroma.scale(['#BA6B41', '#13DA4C']);
     if (cityObject.score) {
+
         scoreEl.text(cityObject.score)
+        scoreEl.css("color", f((cityObject.score - 80)/20).toString())
     } else {
         var score = getRandomInt(80, 100)
         scoreEl.text(score)
+        scoreEl.css("color", f((score - 80)/20).toString())
         cityObject['score'] = score
         localStorage.setItem("cityHistoryObject", JSON.stringify(cityHistoryObject))
     }
