@@ -8,8 +8,22 @@ var cityHistoryObject = {}
 
 if (localStorage.getItem('cityHistoryObject')) {
     cityHistoryObject = JSON.parse(localStorage.getItem('cityHistoryObject'))
+    console.log(cityHistoryObject)
 }
+
+
+if (localStorage.getItem('cityObject')) {
+    var cityObject = JSON.parse(localStorage.getItem("cityObject"))
+    if (!(cityObject.nameJS in cityHistoryObject)) {
+        console.log("entering deletion loop")
+        if (Object.keys(cityHistoryObject).length > 2) {
+            delete cityHistoryObject[Object.keys(cityHistoryObject)[0]]
+        }
+    }
+}
+
 renderFromHistory()
+
 
 if (localStorage.getItem('cityObject')) {
     var cityObject = JSON.parse(localStorage.getItem("cityObject"))
@@ -27,7 +41,6 @@ if (localStorage.getItem('cityObject')) {
 
 
 function generateInfoCard(cityObject) {
-    console.log(cityObject)
     var largeCardEl = $("<div>", { "class": "cell card align-center auto result-card", "data-city-name": cityObject.nameJS })
     var closeButtonEl = $("<button>", { "class": "close-button close-btn", "aria-label": "Close alert", "type": "button" })
     closeButtonEl.html("<span>&times;</span>")
@@ -50,7 +63,6 @@ function generateInfoCard(cityObject) {
     largeCardEl.append(cardGridX.append(headerEl).append(bodyEl))
     largeCardEl.append(closeButtonEl)
     resultsCardsEl.append(largeCardEl)
-    console.log(resultsCardsEl[0].children)
 }
 
 
@@ -60,7 +72,6 @@ function eventsAndJobsApi(cityObject) {
     })
         .then(function (response) {
             cityObject['seatgeekResponse'] = response;
-            console.log(cityObject.seatgeekResponse)
             populateEvents(cityObject)
             jobsApi(cityObject)
         })
@@ -75,24 +86,6 @@ function populateEvents(cityObject) {
     var eventNumber = $("<h2>").text(cityObject.seatgeekResponse.meta.total.toLocaleString())
     var cardFooter = $("<h5>").text("in area")
     cardEl.append(eventNumber, cardFooter);
-
-    // var eventTypes = [{}];
-    // eventTypes.push(cityObject.seatgeekResponse.events[0].type)
-    // for (let i = 0; i < cityObject.seatgeekResponse.events.length; i++) {
-    //     var tempType = cityObject.seatgeekResponse.events[i].type;
-    //     if (!(eventTypes.includes(tempType))) {
-
-    //         eventTypes.push(tempType);
-    //         var eventTypesEl = $("<a>").text(cityObject.seatgeekResponse.events[i].type.toUpperCase());
-    //         eventTypesEl.href = "#";
-    //         eventTypesEl.on("click", loadEventSearch);
-    //         cardEl.append(eventTypesEl);
-    //     }
-    //     else {
-    //         //do nothing
-    //     }
-    // }
-    // console.log(eventTypes);
 }
 
 function weatherApi(cityObject) {
@@ -105,9 +98,7 @@ function weatherApi(cityObject) {
         }
     })
         .then(function (response) {
-            console.log(response)
             cityObject['foreca'] = response;
-            console.log(cityObject.foreca + "Foreca");
             populateWeather(cityObject);
         })
 }
@@ -133,7 +124,6 @@ function populateWeather(cityObject) {
 }
 // search api via type
 function loadEventSearch() {
-    console.log("event Loaded");
 }
 
 
@@ -146,7 +136,6 @@ function jobsApi(cityObject) {
         url: requestURL,
         method: 'GET'
     }).then(function (response) {
-        console.log(response)
         cityObject['jobs'] = response;
         populateJobs(cityObject);
         populateScore(cityObject)
@@ -198,7 +187,6 @@ function removeCity(event) {
 function renderFromHistory() {
     var cities = Object.keys(cityHistoryObject)
     for (i = 0; i < cities.length; i++) {
-        console.log(cityHistoryObject[cities[i]])
         generateInfoCard(cityHistoryObject[cities[i]])
         //need lat and lon
         populateHeader(cityHistoryObject[cities[i]])
@@ -223,11 +211,8 @@ function populateScore(cityObject) {
     } else {
         var score = getRandomInt(80, 100)
         scoreEl.text(score)
-        console.log("setting score")
         cityObject['score'] = score
         localStorage.setItem("cityHistoryObject", JSON.stringify(cityHistoryObject))
-        console.log(cityObject)
-        console.log(cityHistoryObject)
     }
     var scoreFooter = $("<h5>").text("Overall Score")
     scoreEl.css("fontSize", 130)
