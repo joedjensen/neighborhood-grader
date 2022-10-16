@@ -1,6 +1,7 @@
 
 var resultsCardsEl = $("#results-cards")
 var searchBtnEl = $(".searchBtn");
+var modalEl = $('#exampleModal2');
 
 
 
@@ -51,12 +52,15 @@ function generateInfoCard(cityObject) {
     var headerCardBack = $("<div>", { "class": "text-center back", "id": cityObject.nameJS + "-back"})
     var bodyEl = $("<div>", { "class": "cell medium-8 large-8" })
     var bodyGridEl = $("<div>", { "class": "grid-x  grid-margin-x grid-padding-x align-justify" })
-    var bodyCardEl1 = $("<div>", { "class": "card cell medium-6 large-4 text-center", "id": cityObject.nameJS + "-weather-el" })
-    var bodyCardEl2 = $("<div>", { "class": "card cell medium-6 large-4 text-center", "id": cityObject.nameJS + "-jobs-el" })
-    var bodyCardEl3 = $("<div>", { "class": "card cell medium-6 large-4 text-center", "id": cityObject.nameJS + "-events-el" })
+    var bodyCardEl1 = $("<div>", { "class": "card cell medium-6 large-4 text-center weather", "id": cityObject.nameJS + "-weather-el" })
+    var bodyCardEl2 = $("<div>", { "class": "card cell medium-6 large-4 text-center jobs", "id": cityObject.nameJS + "-jobs-el" })
+    var bodyCardEl3 = $("<div>", { "class": "card cell medium-6 large-4 text-center events", "id": cityObject.nameJS + "-events-el" })
     bodyCardEl1.text("Loading")
     bodyCardEl2.text("Loading")
     bodyCardEl3.text("Loading")
+    bodyCardEl1.attr("data-open","exampleModal2")
+    bodyCardEl2.attr("data-open","exampleModal2")
+    bodyCardEl3.attr("data-open","exampleModal2")
     bodyGridEl.append(bodyCardEl1, bodyCardEl2, bodyCardEl3)
     bodyEl.append(bodyGridEl)
     headerEl.append(headerGridY.append(headerCardEl.append(headerCardFront).append(headerCardBack)))
@@ -226,6 +230,42 @@ function populateScore(cityObject) {
     }
     var scoreFooter = $("<h5>").text("Overall Score")
     scoreCardEl.append(scoreEl, scoreFooter)
+}
+
+
+$('.jobs').on('click', function() {
+    populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+})
+
+function populateJobsModal(cityObject) {
+    modalEl.empty();
+    modalEl.append($('<h2>').text('Job Listings'))
+    var list = ($('<ul>'));
+    var results = cityObject.jobs.results;
+    for(var i=0; i<5; i++) {
+        list.append($('<li>').html('<a href = ' + results[i].refs.landing_page + '>' + results[i].name + '</a>'));
+    }
+    modalEl.append(list);
+}
+
+
+
+$('.weather').on('click', function() {
+    populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+})
+
+function populateWeatherModal(cityObject) {
+    modalEl.empty();
+}
+
+
+
+$('.events').on('click', function() {
+    populateEventsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+})
+
+function populateEventsModal(cityObject) {
+    modalEl.empty();
 }
 
 function populateCardBack(cityObject) {
