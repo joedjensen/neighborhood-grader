@@ -8,7 +8,6 @@ var cityHistoryObject = {}
 
 if (localStorage.getItem('cityHistoryObject')) {
     cityHistoryObject = JSON.parse(localStorage.getItem('cityHistoryObject'))
-    console.log(cityHistoryObject)
 }
 
 
@@ -215,6 +214,6 @@ function populateScore(cityObject) {
         localStorage.setItem("cityHistoryObject", JSON.stringify(cityHistoryObject))
     }
     var scoreFooter = $("<h5>").text("Overall Score")
-    scoreEl.css("fontSize", 130)
+    scoreEl.css("fontSize", "15vh")
     scoreCardEl.append(scoreEl, scoreFooter)
 }
