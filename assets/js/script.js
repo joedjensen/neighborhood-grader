@@ -14,9 +14,12 @@ function fetchResults(event) {
     event.preventDefault();
     //save street and city values
     var cityName = $("#findlocate").val();
+    var locArray = document.location.pathname.split('/')
+    var loc = locArray[locArray.length - 1]
 
     if (!cityName) {
-        if (document.location.pathname == "/results.html") {
+  
+        if (loc == "results.html") {
             $("label").text("").append(" Enter a city Name, such as Fresno, Chicago, or New York").css({ "color": "red" });
         } else {
             $("#cityStatus").text("Enter a city Name, such as Fresno, Chicago, or New York");
@@ -42,8 +45,7 @@ function fetchResults(event) {
                 console.log(data);
 
                 if (!data.locations.length) {
-                    console.log(document.location)
-                    if (document.location.pathname == "/results.html") {
+                    if (loc == "results.html") {
                         $("label").text("").append("City not Found: " + cityName).css({ "color": "red" });
                         $("#findlocate").val("");
                     } else {
@@ -67,7 +69,7 @@ function fetchResults(event) {
                     "lon": lon
                 }
                 localStorage.setItem("cityObject", JSON.stringify(cityObject));
-                if (document.location.pathname == "/results.html") {
+                if (loc == "results.html") {
                     document.location.replace("./results.html")
                 } else {
                     document.location = "./results.html"
