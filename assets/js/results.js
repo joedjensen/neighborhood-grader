@@ -233,7 +233,14 @@ $('.jobs').on('click', function() {
 })
 
 function populateJobsModal(cityObject) {
-    $('#exampleModal2').text(cityObject.name + 'jobs');
+    modalEl.empty();
+    modalEl.append($('<h2>').text('Job Listings'))
+    var list = ($('<ul>'));
+    var results = cityObject.jobs.results;
+    for(var i=0; i<5; i++) {
+        list.append($('<li>').html('<a href = ' + results[i].refs.landing_page + '>' + results[i].name + '</a>'));
+    }
+    modalEl.append(list);
 }
 
 
@@ -243,7 +250,7 @@ $('.weather').on('click', function() {
 })
 
 function populateWeatherModal(cityObject) {
-    $('#exampleModal2').text(cityObject.name + "weather");
+    modalEl.empty();
 }
 
 
@@ -253,5 +260,5 @@ $('.events').on('click', function() {
 })
 
 function populateEventsModal(cityObject) {
-    $('#exampleModal2').text(cityObject.name + 'events');
+    modalEl.empty();
 }
