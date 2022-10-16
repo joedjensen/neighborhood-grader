@@ -101,18 +101,24 @@
 }
 
 #results-body {
-    background-color: #0a0a31;
+    background-color: #00065c;
     overflow-y: overlay
 }
 
 .card {
     box-shadow: 0 .5rem 1rem hsl(0 0% 0% / 20%);
     border-radius: 5px;
-    background-color: #0a0a31;
-    /* border-color: #9F2C3F; */
     border: none;
     color: white;
     padding: 5px;
+}
+.result-card {
+    background-color: #001D76;
+}
+
+.result-card .card{
+    background-color: #003190;
+
 }
 
 ::-webkit-scrollbar {
