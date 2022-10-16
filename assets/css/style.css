@@ -112,8 +112,10 @@
     color: white;
     padding: 5px;
 }
+
 .result-card {
     background-color: #001D76;
+    position: relative;
 }
 
 .result-card .card{
@@ -121,22 +123,6 @@
 
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(90, 90, 90);
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.result-card {
-    position: relative;
-}
 
 .close-btn {
     position: absolute;
@@ -190,6 +176,12 @@
     font-weight: bold;
 }
 
+.back {
+    display: flex;
+    flex-direction: column;
+justify-content: center; /* align horizontal */
+align-items: center; /* align vertical */
+}
 .close:hover,
 .close:focus {
     color: #000;
