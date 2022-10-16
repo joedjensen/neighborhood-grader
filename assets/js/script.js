@@ -8,17 +8,27 @@ var closeCitybtn = document.getElementsByClassName("close")[0];
 var lat = 0;
 var lon = 0;
 
+
 function fetchResults(event) {
+    console.log("here we go")
     event.preventDefault();
     //save street and city values
     var cityName = $("#findlocate").val();
+    var locArray = document.location.pathname.split('/')
+    var loc = locArray[locArray.length - 1]
 
     if (!cityName) {
-        $("#cityStatus").text("Enter a city Name, such as Fresno, Chicago, or New York");
-        modal.style.display = "block";
+  
+        if (loc == "results.html") {
+            $("label").text("").append(" Enter a city Name, such as Fresno, Chicago, or New York").css({ "color": "red" });
+        } else {
+            $("#cityStatus").text("Enter a city Name, such as Fresno, Chicago, or New York");
+            modal.style.display = "block";
+        }
         return;
     }
     else {
+
 
         // Foreca api grab lat/lon by city name
         $.ajax({
@@ -35,9 +45,14 @@ function fetchResults(event) {
                 console.log(data);
 
                 if (!data.locations.length) {
-                    modal.style.display = "block";
-                    $("#findlocate").val("");
-                    $("#cityStatus").text("City not Found: " + cityName);
+                    if (loc == "results.html") {
+                        $("label").text("").append("City not Found: " + cityName).css({ "color": "red" });
+                        $("#findlocate").val("");
+                    } else {
+                        modal.style.display = "block";
+                        $("#findlocate").val("");
+                        $("#cityStatus").text("City not Found: " + cityName);
+                    }
                     return data;
                 }
 
@@ -47,27 +62,34 @@ function fetchResults(event) {
                 lon = parseFloat(lon).toFixed(2);
                 lat = parseFloat(lat).toFixed(2);
 
-                console.log(lon + " this is lon");
-                console.log(lat + " this is lat");
                 var cityObject = {
-                    "name": cityName,
-                    "nameJS": cityName.replace(/\s/g, '-'),
+                    "name": data.locations[0].name,
+                    "nameJS": data.locations[0].name.replace(/\s/g, '-'),
                     "lat": lat,
                     "lon": lon
                 }
                 localStorage.setItem("cityObject", JSON.stringify(cityObject));
-
-                document.location = "./results.html"
+                if (loc == "results.html") {
+                    document.location.replace("./results.html")
+                } else {
+                    document.location = "./results.html"
+                }
             })
     }
+
 }
 
 searchBtnEl.on("click", fetchResults);
 
-// When the user clicks on <span> (x), close the modal
-closeCitybtn.onclick = function () {
-    modal.style.display = "none";
+console.log(searchBtnEl)
+
+if (closeCitybtn) {
+    // When the user clicks on <span> (x), close the modal
+    closeCitybtn.onclick = function () {
+        modal.style.display = "none";
+    }
 }
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
