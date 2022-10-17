@@ -255,7 +255,7 @@ function attachListeners() {
     function populateWeatherModal(cityHistoryObject) {
         modalEl.empty();
         modalEl.append($("<h2>").text("Forecast"));
-        modalEl.append($("<img src = '' alt = 'foreca logo'>"))
+        // modalEl.append($("<img src = '' alt = 'foreca logo'>"))
         var list = ($('<ul>'));
         var results = cityHistoryObject.forecaForecast.forecast;
         for (var i = 0; i < 5; i++) {
