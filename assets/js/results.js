@@ -77,8 +77,8 @@ function eventsAndJobsApi(cityObject) {
     $.ajax({
         url: 'https://api.seatgeek.com/2/events?lat=' + cityObject.lat + '&lon=' + cityObject.lon + '&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4'
     })
-    // we call the jobsApi function from in here because we need the two-letter state abbreviation, and this API returns it in its data object
-    .then(function (response) {
+        // we call the jobsApi function from in here because we need the two-letter state abbreviation, and this API returns it in its data object
+        .then(function (response) {
             cityObject['seatgeekResponse'] = response;
             populateEvents(cityObject)
             jobsApi(cityObject)
@@ -227,7 +227,7 @@ function attachListeners() {
 
     function populateJobsModal(cityObject) {
         modalEl.empty();
-        console.log(cityObject)
+        // console.log(cityObject)
         modalEl.append($('<h2>').text('Job Listings'))
         var list = ($('<ul>'));
         var results = cityObject.jobs.results;
@@ -236,30 +236,27 @@ function attachListeners() {
         }
         modalEl.append(list);
     }
-
-
-
     $('.weather').on('click', function () {
         populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
     })
 
     function populateWeatherModal(cityHistoryObject) {
         modalEl.empty();
+        var foreC = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" });
+        foreC.append($("<div>", { "class": "col medium-2 large-2" }))
         modalEl.append($("<h2>").text("Forecast"));
         // modalEl.append($("<img src = '' alt = 'foreca logo'>"))
-        var list = ($('<ul>'));
         var results = cityHistoryObject.forecaForecast.forecast;
         for (var i = 0; i < 5; i++) {
+            var list = ($('<ul>'));
             list.append($('<li>').text("Date: " + results[i].date))
             list.append($('<li>').text("Temp: " + results[i].maxTemp))
             list.append($('<li>').text("Wind Speed: " + results[i].maxWindSpeed))
             // list.append($("<img src = 'https://fnw-us.foreca.com/api/v1/static/images/symbols/results[i].symbol alt = 'weather symbol'>"))
+            foreC.append(list)
         }
-        modalEl.append(list);
+        modalEl.append(foreC);
     }
-
-
-
     $('.events').on('click', function () {
         populateEventsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
     })
@@ -281,7 +278,6 @@ function populateCardBack(cityObject) {
     var scoreCardEl = $("#" + cityObject.nameJS + "-back")
     scoreCardEl.empty()
     scoreCardEl.html("<p>This rating is based on a weighted combination of the weather, available jobs, and upcoming events in " + cityObject.name + ".</p><p> Click on the cards for more info!</p>")
-
 }
 var cards = $('.flippable-card');
 cards.flip()
