@@ -1,4 +1,3 @@
-
 var resultsCardsEl = $("#results-cards")
 var searchBtnEl = $(".searchBtn");
 var modalEl = $('#exampleModal2');
@@ -86,7 +85,6 @@ function eventsAndJobsApi(cityObject) {
 function populateEvents(cityObject) {
     var cardEl = $("#" + cityObject.nameJS + "-events-el")
     cardEl.empty()
-    // cardEl.text(cityObject.seatgeekResponse.meta.total)
     var eventCardHeader = $("<h4>").text("Events")
     cardEl.append(eventCardHeader)
     var eventNumber = $("<h2>").text(cityObject.seatgeekResponse.meta.total.toLocaleString())
@@ -114,12 +112,7 @@ function populateWeather(cityObject) {
     var cardEl = $("#" + cityObject.nameJS + "-weather-el");
     cardEl.empty()
     var weatherCardHeader = $("<h4>").text("Current Temp")
-    // var feels = $("<h5>").text("Feels Like: " + cityObject.foreca.observations[0].feelsLikeTemp);
-    // var humidity = $("<h5>").text("Humidity: " + cityObject.foreca.observations[0].relHumidity);
-    // var symbol = $("<img>").text(cityObject.foreca.observations[0].symbol);
     var temp = $("<h2>").html(cityObject.foreca.observations[0].temperature + "&#8457");
-    // var windSpeed = $("<h5>").text("Windspeed: " + cityObject.foreca.observations[0].windSpeed);
-
     cardEl.append(weatherCardHeader, temp);
 
 }
@@ -150,23 +143,9 @@ function populateJobs(cityObject) {
     var cardEl = $("#" + cityObject.nameJS + "-jobs-el");
     cardEl.empty()
     var jobsCardHeader = $("<h4>").text("Jobs")
-    // var jobsList = $('<ul>').css("list-style", "none").css("font-size", '15px');
-    // var jobNum = $('<li>');
-    // jobNum.text(cityObject.jobs.total + ' total jobs in area, including:');
-    // var jobEx1 = $('<li>');
-    // jobEx1.text(cityObject.jobs.results[0].name);
-    // var jobEx2 = $('<li>');
-    // jobEx2.text(cityObject.jobs.results[1].name);
-    // var jobEx3 = $('<li>');
-    // jobEx3.text(cityObject.jobs.results[2].name);
-    // cardEl.text('');
-    // jobsList.prepend(jobNum);
-    // jobsList.append(jobEx1, jobEx2, jobEx3);
-
     var jobNum = $("<h2>").html(cityObject.jobs.total.toLocaleString());
     var footer = $("<h5>").text("in area")
     cardEl.append(jobsCardHeader, jobNum, footer);
-
 }
 
 function populateHeader(cityObject) {
@@ -308,7 +287,6 @@ function weatherForecast(cityObject) {
     })
         .then(function (response) {
             cityObject['forecaForecast'] = response;
-            // populateWeather(cityObject);
             console.log(response);
         })
 }
