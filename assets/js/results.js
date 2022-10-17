@@ -32,9 +32,8 @@ if (localStorage.getItem('cityObject')) {
         weatherApi(cityObject);
         eventsAndJobsApi(cityObject);
         populateHeader(cityObject)
+        cityHistoryObject[cityObject.nameJS] = cityObject
     }
-
-    cityHistoryObject[cityObject.nameJS] = cityObject
 }
 
 
@@ -187,6 +186,7 @@ function removeCity(event) {
     localStorage.removeItem('cityObject')
     delete cityHistoryObject[$(this).closest(".card").attr("data-city-name")]
     localStorage.setItem('cityHistoryObject', JSON.stringify(cityHistoryObject))
+    cityHistoryObject = JSON.parse(localStorage.getItem('cityHistoryObject'))
     resultsCardsEl.empty()
     renderFromHistory()
     var cards = $('.flippable-card');
@@ -204,6 +204,7 @@ function renderFromHistory() {
         populateJobs(cityHistoryObject[cities[i]])
         populateScore(cityHistoryObject[cities[i]])
         populateCardBack(cityHistoryObject[cities[i]])
+        attachListeners()
     }
 }
 
@@ -232,13 +233,13 @@ function populateScore(cityObject) {
     scoreCardEl.append(scoreEl, scoreFooter)
 }
 
-
-$('.jobs').on('click', function() {
+function attachListeners() { $('.jobs').on('click', function() {
     populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
 })
 
 function populateJobsModal(cityObject) {
     modalEl.empty();
+    console.log(cityObject)
     modalEl.append($('<h2>').text('Job Listings'))
     var list = ($('<ul>'));
     var results = cityObject.jobs.results;
@@ -273,7 +274,7 @@ function populateEventsModal(cityObject) {
         list.append($('<li>').html('<a href = ' + events[i].url + '>' + events[i].short_title + '</a>'));
     }
     modalEl.append(list);
-}
+}}
 
 function populateCardBack(cityObject) {
     console.log("populatingback")
@@ -284,3 +285,4 @@ function populateCardBack(cityObject) {
 }
 var cards = $('.flippable-card');
 cards.flip()
+attachListeners()
