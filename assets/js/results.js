@@ -46,8 +46,10 @@ function generateInfoCard(cityObject) {
     closeButtonEl.html("<span>&times;</span>")
     var cardGridX = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" })
     var headerGridY = $("<div>", { "class": "grid-y align-center", "style": "height:100%" })
-    var headerEl = $("<div>", { "class": "cell medium-4 large-4" })
-    var headerCardEl = $("<div>", { "class": "card text-center", "id": cityObject.nameJS + "-score" })
+    var headerEl = $("<div>", { "class": "cell medium-4 large-4 scene"})
+    var headerCardEl = $("<div>", { "class": "card text-center flippable-card"})
+    var headerCardFront = $("<div>", { "class": "text-center front", "id": cityObject.nameJS + "-score" })
+    var headerCardBack = $("<div>", { "class": "text-center back", "id": cityObject.nameJS + "-back"})
     var bodyEl = $("<div>", { "class": "cell medium-8 large-8" })
     var bodyGridEl = $("<div>", { "class": "grid-x  grid-margin-x grid-padding-x align-justify" })
     var bodyCardEl1 = $("<div>", { "class": "card cell medium-6 large-4 text-center weather", "id": cityObject.nameJS + "-weather-el" })
@@ -61,8 +63,9 @@ function generateInfoCard(cityObject) {
     bodyCardEl3.attr("data-open","exampleModal2")
     bodyGridEl.append(bodyCardEl1, bodyCardEl2, bodyCardEl3)
     bodyEl.append(bodyGridEl)
-    headerEl.append(headerGridY.append(headerCardEl))
-    headerCardEl.text("Loading")
+    headerEl.append(headerGridY.append(headerCardEl.append(headerCardFront).append(headerCardBack)))
+    headerCardFront.text("Loading")
+    headerCardBack.text("Loading")
     largeCardEl.append(cardGridX.append(headerEl).append(bodyEl))
     largeCardEl.append(closeButtonEl)
     resultsCardsEl.append(largeCardEl)
@@ -142,6 +145,7 @@ function jobsApi(cityObject) {
         cityObject['jobs'] = response;
         populateJobs(cityObject);
         populateScore(cityObject)
+        populateCardBack(cityObject)
         localStorage.setItem('cityHistoryObject', JSON.stringify(cityHistoryObject))
     })
 }
@@ -185,6 +189,8 @@ function removeCity(event) {
     localStorage.setItem('cityHistoryObject', JSON.stringify(cityHistoryObject))
     resultsCardsEl.empty()
     renderFromHistory()
+    var cards = $('.flippable-card');
+    cards.flip()
 }
 
 function renderFromHistory() {
@@ -197,6 +203,7 @@ function renderFromHistory() {
         populateEvents(cityHistoryObject[cities[i]])
         populateJobs(cityHistoryObject[cities[i]])
         populateScore(cityHistoryObject[cities[i]])
+        populateCardBack(cityHistoryObject[cities[i]])
     }
 }
 
@@ -222,10 +229,8 @@ function populateScore(cityObject) {
         localStorage.setItem("cityHistoryObject", JSON.stringify(cityHistoryObject))
     }
     var scoreFooter = $("<h5>").text("Overall Score")
-    scoreEl.css("fontSize", "15vh")
     scoreCardEl.append(scoreEl, scoreFooter)
 }
-
 
 
 $('.jobs').on('click', function() {
@@ -269,3 +274,13 @@ function populateEventsModal(cityObject) {
     }
     modalEl.append(list);
 }
+
+function populateCardBack(cityObject) {
+    console.log("populatingback")
+    var scoreCardEl = $("#" + cityObject.nameJS + "-back")
+    scoreCardEl.empty()
+    scoreCardEl.html("<p>This rating is based on a weighted combination of the weather, available jobs, and upcoming events in " + cityObject.name + ".</p><p> Click on the cards for more info!</p>")
+
+}
+var cards = $('.flippable-card');
+cards.flip()
