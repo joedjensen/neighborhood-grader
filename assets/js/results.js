@@ -33,9 +33,8 @@ if (localStorage.getItem('cityObject')) {
         eventsAndJobsApi(cityObject);
         populateHeader(cityObject)
         weatherForecast(cityObject)
+        cityHistoryObject[cityObject.nameJS] = cityObject
     }
-
-    cityHistoryObject[cityObject.nameJS] = cityObject
 }
 
 
@@ -183,6 +182,7 @@ function removeCity(event) {
     localStorage.removeItem('cityObject')
     delete cityHistoryObject[$(this).closest(".card").attr("data-city-name")]
     localStorage.setItem('cityHistoryObject', JSON.stringify(cityHistoryObject))
+    cityHistoryObject = JSON.parse(localStorage.getItem('cityHistoryObject'))
     resultsCardsEl.empty()
     renderFromHistory()
     var cards = $('.flippable-card');
@@ -200,6 +200,7 @@ function renderFromHistory() {
         populateJobs(cityHistoryObject[cities[i]])
         populateScore(cityHistoryObject[cities[i]])
         populateCardBack(cityHistoryObject[cities[i]])
+        attachListeners()
     }
 }
 
@@ -228,52 +229,60 @@ function populateScore(cityObject) {
     scoreCardEl.append(scoreEl, scoreFooter)
 }
 
+function attachListeners() {
+    $('.jobs').on('click', function () {
+        populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+    })
 
-$('.jobs').on('click', function () {
-    console.log(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")]);
-    populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
-})
-
-function populateJobsModal(cityObject) {
-    modalEl.empty();
-    modalEl.append($('<h2>').text('Job Listings'))
-    var list = ($('<ul>'));
-    var results = cityObject.jobs.results;
-    for (var i = 0; i < 5; i++) {
-        list.append($('<li>').html('<a href = ' + results[i].refs.landing_page + '>' + results[i].name + '</a>'));
+    function populateJobsModal(cityObject) {
+        modalEl.empty();
+        console.log(cityObject)
+        modalEl.append($('<h2>').text('Job Listings'))
+        var list = ($('<ul>'));
+        var results = cityObject.jobs.results;
+        for (var i = 0; i < 5; i++) {
+            list.append($('<li>').html('<a href = ' + results[i].refs.landing_page + '>' + results[i].name + '</a>'));
+        }
+        modalEl.append(list);
     }
-    modalEl.append(list);
-}
 
 
 
-$('.weather').on('click', function () {
-    populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
-})
+    $('.weather').on('click', function () {
+        populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+    })
 
-function populateWeatherModal(cityHistoryObject) {
-    modalEl.empty();
-    modalEl.append($("<h2>").text("Forecast"));
-    modalEl.append($("<img src = '' alt = 'foreca logo'>"))
-    var list = ($('<ul>'));
-    var results = cityHistoryObject.forecaForecast.forecast;
-    for (var i = 0; i < 5; i++) {
-        list.append($('<li>').text("Date: " + results[i].date))
-        list.append($('<li>').text("Temp: " + results[i].maxTemp))
-        list.append($('<li>').text("Wind Speed: " + results[i].maxWindSpeed))
-        // list.append($("<img src = 'https://fnw-us.foreca.com/api/v1/static/images/symbols/results[i].symbol alt = 'weather symbol'>"))
+    function populateWeatherModal(cityHistoryObject) {
+        modalEl.empty();
+        modalEl.append($("<h2>").text("Forecast"));
+        modalEl.append($("<img src = '' alt = 'foreca logo'>"))
+        var list = ($('<ul>'));
+        var results = cityHistoryObject.forecaForecast.forecast;
+        for (var i = 0; i < 5; i++) {
+            list.append($('<li>').text("Date: " + results[i].date))
+            list.append($('<li>').text("Temp: " + results[i].maxTemp))
+            list.append($('<li>').text("Wind Speed: " + results[i].maxWindSpeed))
+            // list.append($("<img src = 'https://fnw-us.foreca.com/api/v1/static/images/symbols/results[i].symbol alt = 'weather symbol'>"))
+        }
+        modalEl.append(list);
     }
-    modalEl.append(list);
-}
 
 
 
-$('.events').on('click', function () {
-    populateEventsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
-})
+    $('.events').on('click', function () {
+        populateEventsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+    })
 
-function populateEventsModal(cityObject) {
-    modalEl.empty();
+    function populateEventsModal(cityObject) {
+        modalEl.empty();
+        modalEl.append($('<h2>').text('Nearby Events'))
+        var list = ($('<ul>'));
+        var events = cityObject.seatgeekResponse.events;
+        for (var i = 0; i < 5; i++) {
+            list.append($('<li>').html('<a href = ' + events[i].url + '>' + events[i].short_title + '</a>'));
+        }
+        modalEl.append(list);
+    }
 }
 
 function populateCardBack(cityObject) {
@@ -285,6 +294,7 @@ function populateCardBack(cityObject) {
 }
 var cards = $('.flippable-card');
 cards.flip()
+attachListeners()
 
 
 function weatherForecast(cityObject) {
