@@ -1,5 +1,4 @@
 var resultsCardsEl = $(".results-cards")
-var resultsCardsEl = $("#results-cards")
 var searchBtnEl = $(".searchBtn");
 var modalEl = $('#exampleModal2');
 
