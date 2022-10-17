@@ -260,7 +260,7 @@ function attachListeners() {
         populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
     })
     
-    function populateWeatherModal(cityObject) {
+    function populateWeatherModal(cityHistoryObject) {
         modalEl.children('*').not('.close-button').remove();
         var foreC = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" });
         foreC.append($("<div>", { "class": "col medium-2 large-2" }))
