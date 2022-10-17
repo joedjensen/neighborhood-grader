@@ -5,16 +5,17 @@ var modalEl = $('#exampleModal2');
 
 
 var cityHistoryObject = {}
-
+// retrieving local storage and assigning to variable for quick access
 if (localStorage.getItem('cityHistoryObject')) {
     cityHistoryObject = JSON.parse(localStorage.getItem('cityHistoryObject'))
 }
 
-
+// checking to see if cityObject (most recent search) is already in history, and putting it there if it's not
 if (localStorage.getItem('cityObject')) {
     var cityObject = JSON.parse(localStorage.getItem("cityObject"))
     if (!(cityObject.nameJS in cityHistoryObject)) {
         console.log("entering deletion loop")
+        // capping the number of cities being rendered on page at 3
         if (Object.keys(cityHistoryObject).length > 2) {
             delete cityHistoryObject[Object.keys(cityHistoryObject)[0]]
         }
@@ -23,7 +24,7 @@ if (localStorage.getItem('cityObject')) {
 
 renderFromHistory()
 
-
+// initiating fetch request functions if cityObject is not already in cityHistoryObject
 if (localStorage.getItem('cityObject')) {
     var cityObject = JSON.parse(localStorage.getItem("cityObject"))
     if (!cityHistoryObject[cityObject.nameJS]) {
@@ -38,7 +39,8 @@ if (localStorage.getItem('cityObject')) {
 
 
 
-
+// generating the cards within which the data from the APIs will be displayed
+// assigning appropriate classes/ids/data attributes for Foundation/CSS and jQuery targeting/manipulation
 function generateInfoCard(cityObject) {
     var largeCardEl = $("<div>", { "class": "cell card align-center auto result-card", "data-city-name": cityObject.nameJS })
     var closeButtonEl = $("<button>", { "class": "close-button close-btn", "aria-label": "Close alert", "type": "button" })
@@ -70,18 +72,20 @@ function generateInfoCard(cityObject) {
     resultsCardsEl.append(largeCardEl)
 }
 
-
+// calling on SeatGeek API to fetch event data
 function eventsAndJobsApi(cityObject) {
     $.ajax({
         url: 'https://api.seatgeek.com/2/events?lat=' + cityObject.lat + '&lon=' + cityObject.lon + '&client_id=Mjk2NTg1OTB8MTY2NTUxOTc2Ny4yMjYwMDQ4'
     })
-        .then(function (response) {
+    // we call the jobsApi function from in here because we need the two-letter state abbreviation, and this API returns it in its data object
+    .then(function (response) {
             cityObject['seatgeekResponse'] = response;
             populateEvents(cityObject)
             jobsApi(cityObject)
         })
 }
 
+// taking the data from the fetch request and populating a card with the relevant information
 function populateEvents(cityObject) {
     var cardEl = $("#" + cityObject.nameJS + "-events-el")
     cardEl.empty()
@@ -92,8 +96,8 @@ function populateEvents(cityObject) {
     cardEl.append(eventNumber, cardFooter);
 }
 
+// fetch request to the Foreca weather API
 function weatherApi(cityObject) {
-
     $.ajax({
         type: 'GET',
         url: 'https://fnw-us.foreca.com/api/v1/observation/latest/"' + cityObject.lon + ',' + cityObject.lat + '"?lang=en&tempunit=F',
@@ -107,6 +111,7 @@ function weatherApi(cityObject) {
         })
 }
 
+// populating a card with the data from the Foreca fetch request
 function populateWeather(cityObject) {
 
     var cardEl = $("#" + cityObject.nameJS + "-weather-el");
@@ -116,14 +121,15 @@ function populateWeather(cityObject) {
     cardEl.append(weatherCardHeader, temp);
 
 }
-// search api via type
+// search API via type
 function loadEventSearch() {
 }
 
 
-
+// fetch request from The Muse, a jobs API
 function jobsApi(cityObject) {
     var jobLocationName = cityObject.name;
+    // using data returned from the SeatGeek response to complete the fetch request
     var jobLocationState = cityObject.seatgeekResponse.meta.geolocation.state;
     var requestURL = 'https://www.themuse.com/api/public/jobs?page=20&location=' + jobLocationName + '%2C%20' + jobLocationState;
     $.ajax({
@@ -157,6 +163,7 @@ function populateHeader(cityObject) {
 
 resultsCardsEl.on("click", "button", removeCity)
 
+// function to remove a city from local storage, then re-render the page, removing that city from the page
 function removeCity(event) {
     localStorage.removeItem('cityObject')
     delete cityHistoryObject[$(this).closest(".card").attr("data-city-name")]
@@ -183,12 +190,15 @@ function renderFromHistory() {
     }
 }
 
+// didn't get a chance to install a fully functioning algorithm for the overall score, so just generating a number to populate that space with for now
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
+// display the score on the page in the appropriate card
+// scores are color-coded according to the relative value (green for high, red for low, and orange in between)
 function populateScore(cityObject) {
     var scoreCardEl = $("#" + cityObject.nameJS + "-score")
     var scoreEl = $("<h2>")
@@ -208,6 +218,8 @@ function populateScore(cityObject) {
     scoreCardEl.append(scoreEl, scoreFooter)
 }
 
+
+// populating a modal with additional detailed info on jobs, events and weather
 function attachListeners() {
     $('.jobs').on('click', function () {
         populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
