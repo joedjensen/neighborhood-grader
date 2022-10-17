@@ -259,7 +259,7 @@ function attachListeners() {
     })
 
     function populateJobsModal(cityObject) {
-        modalEl.empty();
+        modalEl.children('*').not('.close-button').remove();
         modalEl.append($('<h2>').text('Job Listings'))
         var list = ($('<ul>'));
         var results = cityObject.jobs.results;
@@ -276,7 +276,7 @@ function attachListeners() {
     })
 
     function populateWeatherModal(cityObject) {
-        modalEl.empty();
+        modalEl.children('*').not('.close-button').remove();
     }
 
 
@@ -286,7 +286,7 @@ function attachListeners() {
     })
 
     function populateEventsModal(cityObject) {
-        modalEl.empty();
+        modalEl.children('*').not('.close-button').remove();
         modalEl.append($('<h2>').text('Nearby Events'))
         var list = ($('<ul>'));
         var events = cityObject.seatgeekResponse.events;
