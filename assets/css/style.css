@@ -121,9 +121,15 @@
 
 .result-card .card {
     background-color: #003190;
-
+}
+.results-cards {
+    height:90vh;
 }
 
+.result-card .grid-x{
+    height: 80%;
+
+}
 
 .close-btn {
     position: absolute;
@@ -134,6 +140,7 @@
 .result-card .card:hover {
     box-shadow: -2px -2px 3px rgba(255, 255, 255, 0.05),
         2px 2px 3px rgba(70, 70, 70, 0.05);
+    cursor: pointer;
 }
 
 /* The Modal (background) */
@@ -176,7 +183,12 @@
     font-size: 28px;
     font-weight: bold;
 }
-
+.front {
+    display: flex;
+    flex-direction: column;
+justify-content: center; /* align horizontal */
+align-items: center; /* align vertical */
+}
 .back {
     display: flex;
     flex-direction: column;
@@ -225,4 +237,16 @@
         -ms-flex-pack: center;
         justify-content: center;
     }
+}
+
+@media screen and (max-width: 39.9375em) {
+   .grid-y.num-cards-3{
+        height:1800px;
+    }  
+    .grid-y.num-cards-2{
+        height:1200px;
+    }  
+    .grid-y.num-cards-1{
+        height:600px;
+    }  
 }
