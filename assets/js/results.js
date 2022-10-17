@@ -32,6 +32,7 @@ if (localStorage.getItem('cityObject')) {
         weatherApi(cityObject);
         eventsAndJobsApi(cityObject);
         populateHeader(cityObject)
+        weatherForecast(cityObject)
         cityHistoryObject[cityObject.nameJS] = cityObject
     }
 }
@@ -45,10 +46,10 @@ function generateInfoCard(cityObject) {
     closeButtonEl.html("<span>&times;</span>")
     var cardGridX = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" })
     var headerGridY = $("<div>", { "class": "grid-y align-center", "style": "height:100%" })
-    var headerEl = $("<div>", { "class": "cell medium-4 large-4 scene"})
-    var headerCardEl = $("<div>", { "class": "card text-center flippable-card"})
+    var headerEl = $("<div>", { "class": "cell medium-4 large-4 scene" })
+    var headerCardEl = $("<div>", { "class": "card text-center flippable-card" })
     var headerCardFront = $("<div>", { "class": "text-center front", "id": cityObject.nameJS + "-score" })
-    var headerCardBack = $("<div>", { "class": "text-center back", "id": cityObject.nameJS + "-back"})
+    var headerCardBack = $("<div>", { "class": "text-center back", "id": cityObject.nameJS + "-back" })
     var bodyEl = $("<div>", { "class": "cell medium-8 large-8" })
     var bodyGridEl = $("<div>", { "class": "grid-x  grid-margin-x grid-padding-x align-justify" })
     var bodyCardEl1 = $("<div>", { "class": "card cell medium-6 large-4 text-center weather", "id": cityObject.nameJS + "-weather-el" })
@@ -57,9 +58,9 @@ function generateInfoCard(cityObject) {
     bodyCardEl1.text("Loading")
     bodyCardEl2.text("Loading")
     bodyCardEl3.text("Loading")
-    bodyCardEl1.attr("data-open","exampleModal2")
-    bodyCardEl2.attr("data-open","exampleModal2")
-    bodyCardEl3.attr("data-open","exampleModal2")
+    bodyCardEl1.attr("data-open", "exampleModal2")
+    bodyCardEl2.attr("data-open", "exampleModal2")
+    bodyCardEl3.attr("data-open", "exampleModal2")
     bodyGridEl.append(bodyCardEl1, bodyCardEl2, bodyCardEl3)
     bodyEl.append(bodyGridEl)
     headerEl.append(headerGridY.append(headerCardEl.append(headerCardFront).append(headerCardBack)))
@@ -107,11 +108,6 @@ function weatherApi(cityObject) {
             populateWeather(cityObject);
         })
 }
-// lets call the weather api
-// Foreca api
-// this call gets the day
-
-
 
 function populateWeather(cityObject) {
 
@@ -221,11 +217,11 @@ function populateScore(cityObject) {
     if (cityObject.score) {
 
         scoreEl.text(cityObject.score)
-        scoreEl.css("color", f((cityObject.score - 80)/20).toString())
+        scoreEl.css("color", f((cityObject.score - 80) / 20).toString())
     } else {
         var score = getRandomInt(80, 100)
         scoreEl.text(score)
-        scoreEl.css("color", f((score - 80)/20).toString())
+        scoreEl.css("color", f((score - 80) / 20).toString())
         cityObject['score'] = score
         localStorage.setItem("cityHistoryObject", JSON.stringify(cityHistoryObject))
     }
@@ -233,48 +229,61 @@ function populateScore(cityObject) {
     scoreCardEl.append(scoreEl, scoreFooter)
 }
 
-function attachListeners() { $('.jobs').on('click', function() {
-    populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
-})
+function attachListeners() {
+    $('.jobs').on('click', function () {
+        populateJobsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+    })
 
-function populateJobsModal(cityObject) {
-    modalEl.empty();
-    console.log(cityObject)
-    modalEl.append($('<h2>').text('Job Listings'))
-    var list = ($('<ul>'));
-    var results = cityObject.jobs.results;
-    for(var i=0; i<5; i++) {
-        list.append($('<li>').html('<a href = ' + results[i].refs.landing_page + '>' + results[i].name + '</a>'));
+    function populateJobsModal(cityObject) {
+        modalEl.empty();
+        console.log(cityObject)
+        modalEl.append($('<h2>').text('Job Listings'))
+        var list = ($('<ul>'));
+        var results = cityObject.jobs.results;
+        for (var i = 0; i < 5; i++) {
+            list.append($('<li>').html('<a href = ' + results[i].refs.landing_page + '>' + results[i].name + '</a>'));
+        }
+        modalEl.append(list);
     }
-    modalEl.append(list);
-}
 
 
 
-$('.weather').on('click', function() {
-    populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
-})
+    $('.weather').on('click', function () {
+        populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+    })
 
-function populateWeatherModal(cityObject) {
-    modalEl.empty();
-}
-
-
-
-$('.events').on('click', function() {
-    populateEventsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
-})
-
-function populateEventsModal(cityObject) {
-    modalEl.empty();
-    modalEl.append($('<h2>').text('Nearby Events'))
-    var list = ($('<ul>'));
-    var events = cityObject.seatgeekResponse.events;
-    for(var i=0; i<5; i++) {
-        list.append($('<li>').html('<a href = ' + events[i].url + '>' + events[i].short_title + '</a>'));
+    function populateWeatherModal(cityHistoryObject) {
+        modalEl.empty();
+        modalEl.append($("<h2>").text("Forecast"));
+        // modalEl.append($("<img src = '' alt = 'foreca logo'>"))
+        var list = ($('<ul>'));
+        var results = cityHistoryObject.forecaForecast.forecast;
+        for (var i = 0; i < 5; i++) {
+            list.append($('<li>').text("Date: " + results[i].date))
+            list.append($('<li>').text("Temp: " + results[i].maxTemp))
+            list.append($('<li>').text("Wind Speed: " + results[i].maxWindSpeed))
+            // list.append($("<img src = 'https://fnw-us.foreca.com/api/v1/static/images/symbols/results[i].symbol alt = 'weather symbol'>"))
+        }
+        modalEl.append(list);
     }
-    modalEl.append(list);
-}}
+
+
+
+    $('.events').on('click', function () {
+        populateEventsModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
+    })
+
+    function populateEventsModal(cityObject) {
+        modalEl.empty();
+        modalEl.append($('<h2>').text('Nearby Events'))
+        var list = ($('<ul>'));
+        var events = cityObject.seatgeekResponse.events;
+        for (var i = 0; i < 5; i++) {
+            list.append($('<li>').html('<a href = ' + events[i].url + '>' + events[i].short_title + '</a>'));
+        }
+        modalEl.append(list);
+    }
+}
 
 function populateCardBack(cityObject) {
     console.log("populatingback")
@@ -286,3 +295,20 @@ function populateCardBack(cityObject) {
 var cards = $('.flippable-card');
 cards.flip()
 attachListeners()
+
+
+function weatherForecast(cityObject) {
+
+    $.ajax({
+        type: 'GET',
+        url: 'https://fnw-us.foreca.com/api/v1/forecast/daily/"' + cityObject.lon + ',' + cityObject.lat + '"?lang=en&tempunit=F',
+        headers: {
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9wZmEuZm9yZWNhLmNvbVwvYXV0aG9yaXplXC90b2tlbiIsImlhdCI6MTY2NTUyNjI0NiwiZXhwIjo5OTk5OTk5OTk5LCJuYmYiOjE2NjU1MjYyNDYsImp0aSI6IjI3Yzc0MGYzODg0ODEwZWMiLCJzdWIiOiJqb2huZnJvbTIwOSIsImZtdCI6IlhEY09oakM0MCtBTGpsWVR0amJPaUE9PSJ9.R6lwtfrLoCrBhdTpLpZaeKjDbjeQWfZmla6i759u7Wg",
+        }
+    })
+        .then(function (response) {
+            cityObject['forecaForecast'] = response;
+            // populateWeather(cityObject);
+            console.log(response);
+        })
+}
