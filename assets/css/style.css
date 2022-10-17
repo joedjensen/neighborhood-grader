@@ -1,9 +1,10 @@
 * {
-    font-family: "Lato", sans-serif
+    font-family: "Lato", sans-serif;
+
 }
 
 .hero-search-filter {
-    background: url("../images/MO-Cityscape.jpg") center center no-repeat;
+    background: url("../images/hncitybackground.jpg") center center no-repeat;
     background-color: #8a8a8a;
     height: 500px;
     background-size: cover;
@@ -118,7 +119,7 @@
     position: relative;
 }
 
-.result-card .card{
+.result-card .card {
     background-color: #003190;
 
 }
@@ -179,14 +180,31 @@
 .back {
     display: flex;
     flex-direction: column;
-justify-content: center; /* align horizontal */
-align-items: center; /* align vertical */
+    justify-content: center;
+    /* align horizontal */
+    align-items: center;
+    /* align vertical */
 }
+
 .close:hover,
 .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.examples-c {
+    background-color: #003190;
+}
+
+.examples {
+    color: #000;
+    margin: 5% 0;
+    margin-bottom: 0;
+    /* padding-top: 120px; */
+    /* padding-bottom: 25px; */
+    background-color: #003190;
+    font-size: 26px;
 }
 
 @media screen and (max-width: 39.9375em) {
