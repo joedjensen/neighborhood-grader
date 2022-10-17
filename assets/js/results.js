@@ -247,8 +247,7 @@ function attachListeners() {
     })
 
     function populateJobsModal(cityObject) {
-        modalEl.empty();
-        // console.log(cityObject)
+        modalEl.children('*').not('.close-button').remove();
         modalEl.append($('<h2>').text('Job Listings'))
         var list = ($('<ul>'));
         var results = cityObject.jobs.results;
@@ -260,9 +259,9 @@ function attachListeners() {
     $('.weather').on('click', function () {
         populateWeatherModal(cityHistoryObject[$(this).closest(".result-card").attr("data-city-name")])
     })
-
+    
     function populateWeatherModal(cityHistoryObject) {
-        modalEl.empty();
+        modalEl.children('*').not('.close-button').remove();
         var foreC = $("<div>", { "class": "grid-x grid-padding-x grid-margin-x" });
         foreC.append($("<div>", { "class": "col medium-2 large-2" }))
         modalEl.append($("<h2>").text("Forecast"));
@@ -284,7 +283,7 @@ function attachListeners() {
     })
 
     function populateEventsModal(cityObject) {
-        modalEl.empty();
+        modalEl.children('*').not('.close-button').remove();
         modalEl.append($('<h2>').text('Nearby Events'))
         var list = ($('<ul>'));
         var events = cityObject.seatgeekResponse.events;
