@@ -261,4 +261,11 @@ $('.events').on('click', function() {
 
 function populateEventsModal(cityObject) {
     modalEl.empty();
+    modalEl.append($('<h2>').text('Nearby Events'))
+    var list = ($('<ul>'));
+    var events = cityObject.seatgeekResponse.events;
+    for(var i=0; i<5; i++) {
+        list.append($('<li>').html('<a href = ' + events[i].url + '>' + events[i].short_title + '</a>'));
+    }
+    modalEl.append(list);
 }
