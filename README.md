@@ -18,16 +18,27 @@ Once on the results page, click the '+' button to add an additional city to the 
 ---
 
 ## Code Snippets
-Local storage is used to pass an object from the search page to the results page. The data from that object is then used to generate the fetch requests for the APIs.  
+Local storage is used to pass an object from the search page to the results page. The application will display up to three cities at a time, and will replace the oldest query on the page if an additional search is made without closing an existing one. The data from that object is then used to generate the fetch requests for the APIs.  
 ![](./assets/images/code-snippet1.png)  
 
 The modals that appear when individual cards are clicked are populated by the same object the as the cards--it contains all of the necessary information so that it can be quickly rendered when called.
 ![](./assets/images/code-snippet2.png)
 
+---
+
+## Technologies Used
+- HTML
+- CSS
+- JavaScript
+- jQuery
+- Foundation [(Documentation)](https://get.foundation/sites/docs/)
+![](./assets/images/responsive-format.gif)  
+Responsive formatting using Foundation's XY grid system
+
 ## Contributors
-[Joe Jensen](https://github.com/joedjensen)  
-[Jonathan Moreno](https://github.com/johnfrom209)  
-[Bradley DiLollo](https://github.com/bdilollo)
+Joe Jensen &#124; [GitHub](https://github.com/joedjensen) &#124; [LinkedIn](https://www.linkedin.com/in/joseph-jensen-5a150b91/)  
+Jonathan Moreno &#124; [GitHub](https://github.com/johnfrom209) &#124; [LinkedIn](https://www.linkedin.com/in/johnfrom209/)  
+Bradley DiLollo &#124; [GitHub](https://github.com/bdilollo) &#124; [LinkedIn](https://www.linkedin.com/in/bradley-dilollo/)
 
 ---
 
