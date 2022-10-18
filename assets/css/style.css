@@ -1,9 +1,10 @@
 * {
-    font-family: "Lato", sans-serif
+    font-family: "Lato", sans-serif;
+
 }
 
 .hero-search-filter {
-    background: url("../images/MO-Cityscape.jpg") center center no-repeat;
+    background: url("../images/hncitybackground.jpg") center center no-repeat;
     background-color: #8a8a8a;
     height: 500px;
     background-size: cover;
@@ -118,11 +119,17 @@
     position: relative;
 }
 
-.result-card .card{
+.result-card .card {
     background-color: #003190;
-
+}
+.results-cards {
+    height:90vh;
 }
 
+.result-card .grid-x{
+    height: 80%;
+
+}
 
 .close-btn {
     position: absolute;
@@ -133,6 +140,7 @@
 .result-card .card:hover {
     box-shadow: -2px -2px 3px rgba(255, 255, 255, 0.05),
         2px 2px 3px rgba(70, 70, 70, 0.05);
+    cursor: pointer;
 }
 
 /* The Modal (background) */
@@ -175,18 +183,40 @@
     font-size: 28px;
     font-weight: bold;
 }
-
-.back {
+.front {
     display: flex;
     flex-direction: column;
 justify-content: center; /* align horizontal */
 align-items: center; /* align vertical */
 }
+.back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align horizontal */
+    align-items: center;
+    /* align vertical */
+}
+
 .close:hover,
 .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.examples-c {
+    background-color: #003190;
+}
+
+.examples {
+    color: white;
+    margin: 5% 0;
+    margin-bottom: 0;
+    /* padding-top: 120px; */
+    /* padding-bottom: 25px; */
+    background-color: #003190;
+    font-size: 26px;
 }
 
 @media screen and (max-width: 39.9375em) {
@@ -207,4 +237,16 @@ align-items: center; /* align vertical */
         -ms-flex-pack: center;
         justify-content: center;
     }
+}
+
+@media screen and (max-width: 39.9375em) {
+   .grid-y.num-cards-3{
+        height:1800px;
+    }  
+    .grid-y.num-cards-2{
+        height:1200px;
+    }  
+    .grid-y.num-cards-1{
+        height:600px;
+    }  
 }
